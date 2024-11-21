@@ -20,8 +20,8 @@
 <body>
 
     @include('layouts.sidebar_admin')
-            <main class="py-4">
-                @yield('content')
+            <main>
+
             </main>
 </body>
 </html>

@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id('id_relawan');
             $table->foreignId('id_jadwal')->constrained('jadwal', 'id_jadwal')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('nama_relawan');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('no_telp');
             $table->text('alamat');
             $table->boolean('is_block')->default(false);
+            $table->boolean('is_koor')->default(false);
             $table->timestamps();
         });
     }
