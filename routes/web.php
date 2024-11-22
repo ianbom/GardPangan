@@ -34,9 +34,10 @@ Route::middleware([IsAdmin::class])->group(function () {
             Route::get('/create', [RelawanController::class, 'create'])->name('admin.relawan.create');
             Route::post('/store', [RelawanController::class, 'store'])->name('admin.relawan.store');
             Route::delete('/delete/{id}', [RelawanController::class, 'delete'])->name('admin.relawan.delete');
-
-
         });
     });
 });
+
+
+    Route::get('/home/relawan', [RelawanController::class, 'homeUser'])->name('user.home');
 

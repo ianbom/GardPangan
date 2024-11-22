@@ -46,4 +46,10 @@ class RelawanController extends Controller
 
         return redirect()->back()->with('success', 'Relawan telah dihapus');
     }
+
+
+    public function homeUser(){
+        $jadwal = Jadwal::where('is_active', true)->get();
+        return view('user.relawan_home', ['jadwal' => $jadwal]);
+    }
 }
