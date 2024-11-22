@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Jadwal;
 use App\Models\Relawan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class RelawanController extends Controller
@@ -28,7 +29,7 @@ class RelawanController extends Controller
                 'email' => 'required|email',
                 'no_telp' => 'required',
                 'alamat' => 'required',
-                'is_koor' => 'sometimes|boolean'
+                'is_koor' => 'boolean'
             ]);
 
             Relawan::create($request->all());
@@ -50,6 +51,15 @@ class RelawanController extends Controller
 
     public function homeUser(){
         $jadwal = Jadwal::where('is_active', true)->get();
+
+        foreach ($jadwal as $item) {
+            if (Carbon::parse($item->jadwal)->lessThan(Carbon::now())) {
+                $item->is_active = false;
+                $item->save();
+            }
+            $item->koor = Relawan::where('id_jadwal', $item->id_jadwal)->where('is_block', false)->where('is_koor', true)->count();
+            $item->relawan = Relawan::where('id_jadwal', $item->id_jadwal)->where('is_block', false)->where('is_koor', false)->count();
+        }
         return view('user.relawan_home', ['jadwal' => $jadwal]);
     }
 }

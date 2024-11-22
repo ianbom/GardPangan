@@ -18,7 +18,7 @@
     @endif
 
     <!-- Form untuk menambahkan relawan -->
-    <form action="{{ route('admin.store.relawan', $jadwal->id_jadwal) }}" method="POST">
+    <form action="{{ route('store.relawan', $jadwal->id_jadwal) }}" method="POST">
         @csrf
 
         <div class="mb-3">

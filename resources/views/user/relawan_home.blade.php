@@ -33,7 +33,7 @@
     filter:brightness(80%);
     ">
     <div class="container">
-        <h1 class="text-white bold">Relawan</h1>
+        <h1 class="text-white">Relawan</h1>
         <p class="text-white">Home / Relawan</p>
     </div>
 </div>
@@ -149,56 +149,80 @@
         </div>
 
         <!-- Schedule Cards -->
-        <!-- Schedule Cards -->
-<div class="row justify-content-center">
-    <!-- Card 1 -->
-    <div class="col-12 col-md-3 mb-4">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <div class="schedule-header">
-                    <strong>Wed, 20 Nov, 04:00 PM</strong>
-                </div>
-                <p class="mb-0">1 Koordinator</p>
-                <div class="border-section">
-                    4 Relawan
-                </div>
-                <button class="selesai-btn">Selesai</button>
-            </div>
-        </div>
-    </div>
 
-    <!-- Card 2 -->
-    <div class="col-12 col-md-3 mb-4">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <div class="schedule-header">
-                    <strong>Wed, 20 Nov, 04:00 PM</strong>
+        <div class="row justify-content-center">
+            @foreach ($jadwal as $item)
+            <div class="col-12 col-md-3 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="schedule-header">
+                            <strong>{{ \Carbon\Carbon::parse($item->jadwal)->translatedFormat('D, d M, H:i A') }}</strong>
+                        </div>
+                        <p class="mb-0">{{ $item->kuota_koordinator }} / {{ $item->koor }} Koordinator</p>
+                        <div class="border-section">
+                            {{ $item->kuota_relawan }} / {{ $item->relawan }} Relawan
+                        </div>
+                        <button class="btn btn-primary selesai-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#daftarModal"
+                                data-jadwal="{{ \Carbon\Carbon::parse($item->jadwal)->translatedFormat('D, d M, H:i A') }}"
+                                data-id="{{ $item->id_jadwal }}">
+                            Daftar
+                        </button>
+                    </div>
                 </div>
-                <p class="mb-0">1 Koordinator</p>
-                <div class="border-section">
-                    4 Relawan
-                </div>
-                <button class="selesai-btn">Selesai</button>
             </div>
+            @endforeach
         </div>
-    </div>
 
-    <!-- Card 3 -->
-    <div class="col-12 col-md-3 mb-4">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <div class="schedule-header">
-                    <strong>Wed, 20 Nov, 04:00 PM</strong>
-                </div>
-                <p class="mb-0">1 Koordinator</p>
-                <div class="border-section">
-                    4 Relawan
-                </div>
-                <button class="selesai-btn">Selesai</button>
+
+
+        <!-- Modal Form -->
+<div class="modal fade" id="daftarModal" tabindex="-1" aria-labelledby="daftarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="daftarModalLabel">Form Pendaftaran Relawan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <form id="daftarForm" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <strong>Jadwal yang dipilih: <span id="jadwalText"></span></strong>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nama_relawan" class="form-label">Nama Relawan</label>
+                        <input type="text" class="form-control" id="nama_relawan" name="nama_relawan" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="no_telp" class="form-label">Nomor Telepon</label>
+                        <input type="text" class="form-control" id="no_telp" name="no_telp" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="alamat" class="form-label">Alamat</label>
+                        <input type="text" class="form-control" id="alamat" name="alamat" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="is_koor" class="form-label">Apakah anda ingin menjadi koordinator</label>
+                        <input type="checkbox" id="is_koor" name="is_koor" value="1" {{ old('is_koor') ? 'checked' : '' }}>
+                    </div>
+                    <input type="hidden" id="id_jadwal" name="id_jadwal">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Daftar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
 
 
         <div class="text-center py-5 " style="margin-top: 3rem;">
@@ -230,12 +254,71 @@
 
 <script>
     document.getElementById('youtube-thumbnail').addEventListener('click', function () {
-        // Replace the iframe src with the YouTube embed link
+
         document.getElementById('youtube-player').querySelector('iframe').src = "https://www.youtube.com/embed/J77q728bfeI?si=pGW5sLJpXOxzpI4l";
-        // Hide the thumbnail and show the player
+
         document.getElementById('youtube-thumbnail').style.display = 'none';
         document.getElementById('youtube-player').style.display = 'block';
     });
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('daftarModal');
+    const form = document.getElementById('daftarForm');
+
+    document.querySelectorAll('.selesai-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const jadwalId = this.getAttribute('data-id');
+            const jadwalText = this.getAttribute('data-jadwal');
+
+            // Update form action with correct URL format
+            form.action = `/store/relawan/${jadwalId}`;
+
+            document.getElementById('id_jadwal').value = jadwalId;
+            document.getElementById('jadwalText').textContent = jadwalText;
+        });
+    });
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        try {
+            const formData = new FormData(this);
+            const response = await fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                credentials: 'same-origin'
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            if (result.success) {
+                alert(result.message || 'Pendaftaran berhasil!');
+                const modalInstance = bootstrap.Modal.getInstance(modal);
+                modalInstance.hide();
+                window.location.reload();
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert(error.message);
+        }
+    });
+});
+    </script>
+
+
+
 @endsection
+

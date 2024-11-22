@@ -24,7 +24,7 @@ Route::middleware([IsAdmin::class])->group(function () {
             Route::put('/update/{id}', [JadwalController::class, 'update'])->name('admin.update.jadwal');
             Route::delete('/delete/{id}', [JadwalController::class, 'delete'])->name('admin.delete.jadwal');
             Route::get('/create/relawan/{id}', [JadwalController::class, 'createRelawan'])->name('admin.create.relawan');
-            Route::post('/store/relawan/{id}', [JadwalController::class, 'storeRelawan'])->name('admin.store.relawan');
+
             Route::get('/index/relawan/{id}', [JadwalController::class, 'indexRelawan'])->name('admin.index.relawan');
             Route::put('/block/relawan/{id}', [JadwalController::class, 'blockRelawan'])->name('admin.block.relawan');
         });
@@ -38,6 +38,7 @@ Route::middleware([IsAdmin::class])->group(function () {
     });
 });
 
-
+    Route::post('/store/relawan/{id}', [JadwalController::class, 'storeRelawan'])->name('store.relawan');
     Route::get('/home/relawan', [RelawanController::class, 'homeUser'])->name('user.home');
+
 

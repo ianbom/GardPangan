@@ -6,6 +6,7 @@ use App\Models\Jadwal;
 use App\Models\Relawan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JadwalController extends Controller
 {
@@ -117,9 +118,17 @@ class JadwalController extends Controller
                 'is_koor' => $request->has('is_koor'),
                 'is_block' => false,
             ]);
-            return redirect()->back()->with('success', 'Relawan telah dibuat');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', $th->getMessage());
+
+            if(Auth::user()){
+                return redirect()->back()->with('success', 'Berhasil menambahkan relawan');
+
+            } else {
+                return response()->json(['success' => true]);
+            }
+
+        } catch (\Throwable $e) { 
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+
         }
     }
 
