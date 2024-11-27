@@ -7,24 +7,50 @@ use App\Models\Relawan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class JadwalController extends Controller
 {
     public function index()
-{
-    $jadwal = Jadwal::orderBy('jadwal', 'asc')->get();
-
-    foreach ($jadwal as $item) {
-        if (Carbon::parse($item->jadwal)->lessThan(Carbon::now())) {
-            $item->is_active = false;
-            $item->save();
-        }
-        $item->koor = Relawan::where('id_jadwal', $item->id_jadwal)->where('is_block', false)->where('is_koor', true)->count();
-        $item->relawan = Relawan::where('id_jadwal', $item->id_jadwal)->where('is_block', false)->where('is_koor', false)->count();
+    {
+        return view('admin.jadwal.index_jadwal');
     }
 
-    return view('admin.jadwal.index_jadwal', ['jadwal' => $jadwal]);
-}
+    public function getData()
+    {
+        $jadwal = Jadwal::orderBy('jadwal', 'asc')->get();
+
+        foreach ($jadwal as $item) {
+            if (Carbon::parse($item->jadwal)->lessThan(Carbon::now())) {
+                $item->is_active = false;
+                $item->save();
+            }
+            $item->koor = Relawan::where('id_jadwal', $item->id_jadwal)
+                ->where('is_block', false)
+                ->where('is_koor', true)
+                ->count();
+            $item->relawan = Relawan::where('id_jadwal', $item->id_jadwal)
+                ->where('is_block', false)
+                ->where('is_koor', false)
+                ->count();
+        }
+
+        return DataTables::of($jadwal)
+        ->editColumn('jadwal', function ($item) {
+            return Carbon::parse($item->jadwal)
+                ->translatedFormat('l, d M Y, h:i A'); // Format Hari, Tanggal, Waktu (AM/PM)
+        })
+            ->addColumn('status', function ($item) {
+                return $item->is_active
+                    ? '<span class="badge bg-success text-white">Aktif</span>'
+                    : '<span class="badge bg-secondary text-white">Non-Aktif</span>';
+            })
+            ->addColumn('action', function ($item) {
+                return view('admin.jadwal.partials.action', ['item' => $item])->render();
+            })
+            ->rawColumns(['status', 'action'])
+            ->make(true);
+    }
 
 
 
@@ -109,34 +135,55 @@ class JadwalController extends Controller
                'is_koor' => 'boolean'
             ]);
 
-            Relawan::create([
+            $relawan = Relawan::create([
                 'id_jadwal' => $jadwal->id_jadwal,
                 'nama_relawan' => $request->nama_relawan,
                 'email' => $request->email,
                 'no_telp' => $request->no_telp,
                 'alamat' => $request->alamat,
-                'is_koor' => $request->has('is_koor'),
+                'is_koor' => $request->has('is_koor') ? $request->is_koor : false,
                 'is_block' => false,
             ]);
 
             if(Auth::user()){
                 return redirect()->back()->with('success', 'Berhasil menambahkan relawan');
-
-            } else {
+            }else{
                 return response()->json(['success' => true]);
-            }
+             }
 
-        } catch (\Throwable $e) { 
+
+
+        } catch (\Throwable $e) {
             return response()->json(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
 
         }
     }
 
-    public function indexRelawan($id){
+    public function indexRelawan($id)
+    {
         $jadwal = Jadwal::findOrFail($id);
         $relawan = Relawan::where('id_jadwal', $jadwal->id_jadwal)->get();
-        return view('admin.jadwal.list_relawan', ['relawan' => $relawan, 'jadwal' => $jadwal]);
 
+        if (request()->ajax()) {
+            return DataTables::of($relawan)
+                ->addColumn('status', function ($row) {
+                    return $row->is_koor
+                        ? '<span class="badge bg-primary text-white">Koordinator</span>'
+                        : '<span class="badge bg-success text-white">Relawan</span>';
+                })
+                ->addColumn('block', function ($row) {
+                    return $row->is_block
+                        ? '<span class="badge bg-danger text-white">Block</span>'
+                        : '<span class="badge bg-success text-white">Aman</span>';
+                })
+                ->addColumn('action', function ($r) {
+                    return view('admin.relawan.partials.action', compact('r'))->render();
+                })
+                ->rawColumns(['status', 'block', 'action'])
+                ->make(true);
+        }
+
+        return view('admin.jadwal.list_relawan', compact('jadwal', 'relawan'));
     }
 
     public function blockRelawan($id)

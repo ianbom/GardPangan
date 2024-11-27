@@ -2,86 +2,140 @@
 
 @section('content')
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+
+<style>
+    .bg-green {
+        background-color: #006f3d;
+    }
+
+    .nav-link {
+        font-weight: bold;
+        color: #000;
+    }
+
+    .nav-link:hover {
+        color: #006f3d;
+    }
+
+    .header-icons a {
+        margin-left: 10px;
+    }
+
+    .header {
+        width: 74%;
+        margin: 0 auto;
+        z-index: 2; /* Higher z-index to ensure it is in front of the image */
+        position: relative; /* Ensure it's in a new stacking context */
+    }
+
+    .image-hero {
+        margin-top: -110px;
+        z-index: 1; /* Lower z-index for the hero image */
+        position: relative;
+    }
+
+    .top-header{
+        height: 40px;
+    }
+
+    .top-navbar{
+        height: 70px;
+    }
+
+
+
+</style>
+
+<header class="header">
+    <div class="bg-green py-2 text-white top-header">
+        <div class="container d-flex justify-content-end gap-4 align-items-center">
+            <span>
+                <i class="fas fa-envelope"></i>   gardapanganid@gmail.com
+            </span>
+                <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </div>
+
+    <!-- Main Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm top-navbar">
         <div class="container">
+            <!-- Logo -->
             <a class="navbar-brand" href="#">
-                <img src="" alt="Garda Pangan" height="40">
+                <img src="logo.png" alt="Garda Pangan" height="50">
             </a>
+            <!-- Toggle Button for Mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <!-- Menu Links -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Tentang Kami</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Mitra</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Penerima</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Relawan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Merchandise</a></li>
+                <ul class="navbar-nav ms-auto gap-3"> <!-- Add ms-auto here -->
+                    <li class="nav-item"><a class="nav-link text-uppercase" href="#" style="font-weight: 510;">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link text-uppercase" href="#" style="font-weight: 510;">Tentang Kami</a></li>
+                    <li class="nav-item"><a class="nav-link text-uppercase" href="#" style="font-weight: 510;">Mitra</a></li>
+                    <li class="nav-item"><a class="nav-link text-uppercase" href="#" style="font-weight: 510;">Penerima</a></li>
+                    <li class="nav-item"><a class="nav-link text-uppercase" href="#" style="font-weight: 510;">Relawan</a></li>
+                    <li class="nav-item"><a class="nav-link text-uppercase" href="#" style="font-weight: 510;">Merchandise</a></li>
+
                 </ul>
             </div>
         </div>
     </nav>
+</header>
 
-    <!-- Hero Section -->
-    <div class="bg-light text-center py-5"
+
+<!-- Hero Section -->
+
+<div class="bg-light text-center image-hero"
     style="background-image: url('{{ asset('image/mesmerizing-shot-beautiful-mountainous-landscape-azores-portugal.jpg') }}');
     background-size: cover;
     background-position: center;
-    height: 400px;
-    filter:brightness(80%);
-    ">
-    <div class="container">
+    height: 41rem;
+    position: relative;">
+    <div class="container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2;">
         <h1 class="text-white">Relawan</h1>
         <p class="text-white">Home / Relawan</p>
     </div>
 </div>
 
-
-
-    <!-- Content Section -->
-    <div class="container py-4" style="margin-top: 7rem;">
-
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-
-                <h2 class="text-success text-md-start text-center" style="font-weight: bold;">Mari Menjadi Food Heroes!</h2>
-
-
-
-                <p class="text-md-start text-center">Dapatkan pengalaman berharga turun tangan langsung menjadi Food Heroes Garda Pangan untuk mengantarkan makanan kepada masyarakat pra-sejahtera di Surabaya.</p>
-
-                <ul class="list-group list-group-flush" style="border: none;">
-                    <li class="list-group-item" style="border: none;">1. Mengasah kepekaan sosial dengan berinteraksi langsung dengan warga pra-sejahtera.</li>
-                    <li class="list-group-item" style="border: none;">2. Belajar mengenai seluk-beluk sampah makanan.</li>
-                    <li class="list-group-item" style="border: none;">3. Berkontribusi memerangi sampah makanan.</li>
-                </ul>
-
-                <div class="mt-4 text-center">
-                    <!-- Thumbnail -->
-                    <div id="youtube-thumbnail" style="cursor: pointer;">
-                        <img class="img-fluid"
-                             src="https://img.youtube.com/vi/J77q728bfeI/hqdefault.jpg"
-                             alt="YouTube Thumbnail">
-                    </div>
-
-                    <!-- YouTube Player (Initially Hidden) -->
-                    <div id="youtube-player" style="display: none;">
-                        <iframe class="w-100"
-                                height="315"
-                                src="https://www.youtube.com/embed/J77q728bfeI?si=pGW5sLJpXOxzpI4l"
-                                frameborder="0"
-                                allow="autoplay; encrypted-media"
-                                allowfullscreen>
-                        </iframe>
-                    </div>
+<!-- Content Section -->
+<div class="container py-4" style="margin-top: 7rem;">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-md-start text-center" style="font-weight: bold; color: #006f3d; ">Mari Menjadi Food Heroes!</h1>
+            <p class="text-md-start text-center">Dapatkan pengalaman berharga turun tangan langsung menjadi Food Heroes Garda Pangan untuk mengantarkan makanan kepada masyarakat pra-sejahtera di Surabaya.</p>
+            <ul class="list-group list-group-flush" style="border: none;">
+                <li class="list-group-item" style="border: none;">1. Mengasah kepekaan sosial dengan berinteraksi langsung dengan warga pra-sejahtera.</li>
+                <li class="list-group-item" style="border: none;">2. Belajar mengenai seluk-beluk sampah makanan.</li>
+                <li class="list-group-item" style="border: none;">3. Berkontribusi memerangi sampah makanan.</li>
+            </ul>
+            <div class="mt-4 text-center">
+                <!-- Thumbnail -->
+                <div id="youtube-thumbnail" style="cursor: pointer;">
+                    <img class="img-fluid"
+                         src="https://img.youtube.com/vi/J77q728bfeI/hqdefault.jpg"
+                         alt="YouTube Thumbnail"
+                         style="width: 55rem; height: 30rem;">
                 </div>
-
-
+                <!-- YouTube Player (Initially Hidden) -->
+                <div id="youtube-player" style="display: none;">
+                    <iframe class="w-100"
+                            style="max-width: 800px; height: 450px;"
+                            src="https://www.youtube.com/embed/J77q728bfeI?si=pGW5sLJpXOxzpI4l"
+                            frameborder="0"
+                            allow="autoplay; encrypted-media"
+                            allowfullscreen>
+                    </iframe>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+
 
 
     <div class="container py-4" style="margin-top: 5rem;">
@@ -89,7 +143,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
 
-                <h3 class="text-success mb-5" style="font-weight: bold;">Penting! Mohon Dibaca!</h3>
+                <h1 class=" mb-5" style="color: #006f3d; font-weight: bold;">Penting! Mohon Dibaca!</h1>
 
                 <p>Selamat datang di pendaftaran Food Heroes Garda Pangan! Baca syarat dan ketentuan kami di bawah ini:</p>
 
@@ -139,45 +193,151 @@
             margin: 10px 0;
         }
     </style>
-    <div class="container py-5" style="margin-top: 5rem;">
-        <!-- Header Section -->
-        <div class="text-center mb-4">
-            <h4 class="mb-2">
-                <strong><i class="bi bi-calendar"></i> 18 Nov 2024 - 22 Nov 2024 </strong>
-            </h4>
-            <p class="text">Kuota 5 slot di hari Senin-Jumat, dan 0 slot di hari Minggu</p>
-        </div>
 
-        <!-- Schedule Cards -->
+<div class="container py-5" style="margin-top: 5rem;">
+    <!-- Header Section -->
+    <div class="text-center mb-4">
+        <h4 class="mb-2">
+            <strong>
+                <i class="bi bi-calendar"></i>
+                {{ \Carbon\Carbon::parse($jadwalTerbaru->jadwal)->translatedFormat(' d F Y') }}
+                -
+                {{ \Carbon\Carbon::parse($jadwalTerlama->jadwal)->translatedFormat(' d F Y') }}
+            </strong>
 
-        <div class="row justify-content-center">
-            @foreach ($jadwal as $item)
-            <div class="col-12 col-md-3 mb-4">
+        </h4>
+    </div>
+
+    <!-- Schedule Cards -->
+    <div class="row justify-content-center">
+        @forelse ($jadwal as $item)
+            <div class="col-12 col-md-4 col-lg-3 mb-4">
                 <div class="card h-100">
                     <div class="card-body text-center">
-                        <div class="schedule-header">
-                            <strong>{{ \Carbon\Carbon::parse($item->jadwal)->translatedFormat('D, d M, H:i A') }}</strong>
+
+                        @if ($item->koor >= $item->kuota_koordinator && $item->relawan >= $item->kuota_relawan)
+                        <div class="schedule-header mb-3" style="background-color: rgba(240, 37, 37, 0.879);">
+                            <strong class="d-block">
+                                {{ \Carbon\Carbon::parse($item->jadwal)->translatedFormat('D, d M, H:i A') }}
+                            </strong>
                         </div>
-                        <p class="mb-0">{{ $item->kuota_koordinator }} / {{ $item->koor }} Koordinator</p>
-                        <div class="border-section">
-                            {{ $item->kuota_relawan }} / {{ $item->relawan }} Relawan
-                        </div>
+                    @else
+                    <div class="schedule-header mb-3">
+                        <strong class="d-block">
+                            {{ \Carbon\Carbon::parse($item->jadwal)->translatedFormat('D, d M, H:i A') }}
+                        </strong>
+                    </div>
+                    @endif
+
+                        <!-- Koordinator Slot -->
+                        @if ($item->koor >= $item->kuota_koordinator)
+                            <p class="text-danger mb-2">Koordinator: Penuh</p>
+                        @else
+                            <p class="mb-2">
+                                 {{ $item->koor }} / {{ $item->kuota_koordinator }} Koordinator
+                            </p>
+                        @endif
+
+                        <!-- Relawan Slot -->
+                        @if ($item->relawan >= $item->kuota_relawan)
+                            <p class="text-danger mb-3">Relawan: Penuh</p>
+                        @else
+                            <p class="mb-3">
+                                 {{ $item->relawan }} / {{ $item->kuota_relawan }} Relawan
+                            </p>
+                        @endif
+
+                        <!-- Button Daftar -->
+                        @if ($item->koor >= $item->kuota_koordinator && $item->relawan >= $item->kuota_relawan)
+                            <p class="btn btn-danger ">Penuh</p>
+                        @else
+
                         <button class="btn btn-primary selesai-btn"
-                                data-bs-toggle="modal"
-                                data-bs-target="#daftarModal"
-                                data-jadwal="{{ \Carbon\Carbon::parse($item->jadwal)->translatedFormat('D, d M, H:i A') }}"
-                                data-id="{{ $item->id_jadwal }}">
-                            Daftar
-                        </button>
+                        data-bs-toggle="modal"
+                        data-bs-target="#daftarModal"
+                        data-jadwal="{{ \Carbon\Carbon::parse($item->jadwal)->translatedFormat('D, d M, H:i A') }}"
+                        data-id="{{ $item->id_jadwal }}"
+                        data-koor = "{{ $item->koor }}"
+                        data-kuota-koordinator = "{{ $item->kuota_koordinator }}"
+                        data-relawan = "{{ $item->relawan }}"
+                        data_kuota_relawan = "{{ $item->kuota_relawan }}"
+                        >
+                        Daftar </button>
+
+                        @endif
                     </div>
                 </div>
             </div>
-            @endforeach
+        @empty
+            <div class="col-12 text-center">
+                <p class="text-muted">Tidak ada jadwal tersedia.</p>
+            </div>
+        @endforelse
+    </div>
+
+
+    <div class="text-center py-5" style="margin-top: 3rem;">
+        <p style="font-size: 18px;">
+            Dimohon mengisi satu slot saja. Pendaftaran dibuka lagi hari Sabtu jam 15.00 WIB. Food rescue Senin-Rabu-Jumat berkisar 4 jam,
+            sementara food rescue Minggu (Dapur Umum) berkisar 8 jam. Durasi ini bisa berubah sesuai kondisi di lapangan.
+        </p>
+    </div>
+</div>
+
+
+
+<footer class="text-white py-5" style="background-color: #262e3b">
+    <div class="container">
+        <div class="row">
+            <!-- About Section -->
+            <div class="col-md-4">
+                <p>
+                    Garda Pangan merupakan sebuah food bank yang bertujuan menjadi pusat koordinasi
+                    makanan surplus dan berpotensi terbuang, untuk disalurkan kepada masyarakat pra-sejahtera.
+                </p>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="col-md-4">
+                <ul class="list-unstyled">
+                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white text-decoration-none">Tentang Kami</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white text-decoration-none">Program</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white text-decoration-none">Mitra</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white text-decoration-none">Penerima</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white text-decoration-none">Relawan</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="#" class="text-white text-decoration-none">Merchandise</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="col-md-4">
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-home text-danger me-2"></i>
+                        Jl Semolowaru Indah J4 Surabaya 60119
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-phone-alt text-success me-2"></i>
+                        0895337847614
+                    </li>
+                    <li>
+                        <i class="fas fa-envelope text-primary me-2"></i>
+                        gardapanganid@gmail.com
+                    </li>
+                </ul>
+            </div>
         </div>
+        <hr class="border-white">
+        <div class="row">
+            <div class="col-12">
+                <p class="mb-0">© Copyright 2024 Garda Pangan - All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
 
 
-
-        <!-- Modal Form -->
+    <!-- Modal Form -->
 <div class="modal fade" id="daftarModal" tabindex="-1" aria-labelledby="daftarModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -208,10 +368,12 @@
                         <label for="alamat" class="form-label">Alamat</label>
                         <input type="text" class="form-control" id="alamat" name="alamat" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="is_koor" class="form-label">Apakah anda ingin menjadi koordinator</label>
-                        <input type="checkbox" id="is_koor" name="is_koor" value="1" {{ old('is_koor') ? 'checked' : '' }}>
+
+                    <div id="is_koor_container" class="mb-3">
+                        <!-- Konten akan diperbarui oleh JavaScript -->
                     </div>
+
+
                     <input type="hidden" id="id_jadwal" name="id_jadwal">
                 </div>
                 <div class="modal-footer">
@@ -223,31 +385,6 @@
     </div>
 </div>
 
-
-
-        <div class="text-center py-5 " style="margin-top: 3rem;">
-            <p style="font-size: 18px;">
-                Dimohon mengisi satu slot saja. Pendaftaran dibuka lagi hari Sabtu jam 15.00 WIB. Food rescue Senin-Rabu-Jum'at berkisar 4 jam,
-                sementara food rescue Minggu (Dapur Umum) berkisar 8 jam. Durasi ini bisa berubah sesuai kondisi di lapangan.
-            </p>
-        </div>
-    </div>
-
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <p>© Copyright 2024 Garda Pangan</p>
-                </div>
-                <div class="col-md-6 text-end">
-                    <a href="#" class="text-white me-2">Facebook</a>
-                    <a href="#" class="text-white">Instagram</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -270,13 +407,44 @@
     document.querySelectorAll('.selesai-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const jadwalId = this.getAttribute('data-id');
+
+            const koor = this.getAttribute('data-koor');
+            const kuota_koordinator = this.getAttribute('data-kuota-koordinator');
+            const relawan = this.getAttribute('data-relawan');
+            const kuota_relawan = this.getAttribute('data_kuota_relawan');
+
             const jadwalText = this.getAttribute('data-jadwal');
+
+            console.log('koor : '+koor);
+            console.log('kuota_koordinator : '+kuota_koordinator);
+            console.log('relawan : '+relawan);
+            console.log('kuota_relawan : '+kuota_relawan);
 
             // Update form action with correct URL format
             form.action = `/store/relawan/${jadwalId}`;
 
             document.getElementById('id_jadwal').value = jadwalId;
             document.getElementById('jadwalText').textContent = jadwalText;
+
+        const isKoorContainer = document.getElementById('is_koor_container');
+        isKoorContainer.innerHTML = ''; // Clear existing options
+
+        if (koor >= kuota_koordinator ) {
+            isKoorContainer.innerHTML = `
+                <label for="is_koor" class="form-label">Kuota yang tersisa hanya relawan</label>
+                <input type="hidden" name="is_koor" value="0">
+            `;
+        } else if (relawan >= kuota_relawan ) {
+            isKoorContainer.innerHTML = `
+                <label for="is_koor" class="form-label">Kuota yang tersisa hanya koordinator</label>
+                <input type="hidden" name="is_koor" value="1">
+            `;
+        } else {
+            isKoorContainer.innerHTML = `
+                <label for="is_koor" class="form-label">Apakah anda ingin menjadi koordinator</label>
+                <input type="checkbox" id="is_koor" name="is_koor" value="1">
+            `;
+        }
         });
     });
 

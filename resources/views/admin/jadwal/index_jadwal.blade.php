@@ -1,77 +1,84 @@
-@extends('layouts.admin')
+@extends('layouts.template')
 
 @section('content')
 
 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
 <div class="container mt-5">
+
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Daftar Jadwal</h1>
-        <a href="{{ route('admin.create.jadwal') }}" class="btn btn-primary">
-            <i class="bi bi-plus-lg"></i> Tambah Jadwal
+        <h4 class="fw-bold text-black"><i class="bi bi-calendar-check"></i> Daftar Jadwal</h4>
+        <a href="{{ route('admin.create.jadwal') }}" class="btn btn-success shadow-sm btn-sm">
+            <i class="bi bi-plus-circle"></i> Tambah Jadwal
         </a>
     </div>
 
+
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
     @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle"></i> {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>#</th>
-                    <th>Tanggal & Waktu</th>
-                    <th>Kuota Koordinator</th>
-                    <th>Kuota Relawan</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($jadwal as $item)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ \Carbon\Carbon::parse($item->jadwal)->translatedFormat('l, d M Y, H:i') }}</td>
-                        <td>{{ $item->kuota_koordinator }} / {{ $item->koor }}</td>
-                        <td>{{ $item->kuota_relawan }} / {{ $item->relawan }}</td>
-                        <td>
-                            <span class="badge {{ $item->is_active ? 'bg-success' : 'bg-secondary' }}">
-                                {{ $item->is_active ? 'Aktif' : 'Non-Aktif' }}
-                            </span>
-                        </td>
-                        <td>
-                            <a href="{{ route('admin.edit.jadwal', $item->id_jadwal) }}" class="btn btn-warning btn-sm">
-                                <i class="bi bi-pencil-fill"></i> Edit
-                            </a>
-                            <a href="{{ route('admin.create.relawan', $item->id_jadwal) }}" class="btn btn-warning btn-sm">
-                                <i class="bi bi-plus-fill"></i>+ Relawan
-                            </a>
-                            <a href="{{ route('admin.index.relawan', $item->id_jadwal) }}" class="btn btn-warning btn-sm">
-                                <i class="bi bi-plus-fill"></i>List
-                            </a>
-                            <form action="{{ route('admin.delete.jadwal', $item->id_jadwal) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="bi bi-trash-fill"></i> Hapus
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="text-center">Tidak ada jadwal tersedia.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="jadwalTable" class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Tanggal & Waktu</th>
+                            <th>Kuota Koordinator</th>
+                            <th>Kuota Relawan</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('#jadwalTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('admin.jadwal.data') }}",
+        columns: [
+            {
+                    data: null, // Kolom index
+                    name: 'index',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+            { data: 'jadwal', name: 'jadwal' },
+            { data: 'kuota_koordinator', name: 'kuota_koordinator', className: 'text-center' },
+            { data: 'kuota_relawan', name:'kuota_relawan', className: 'text-center' },
+            { data: 'status', name: 'status', orderable: true, searchable: false, className: 'text-center' },
+            { data: 'action', name: 'action', orderable: false, searchable: false, className: 'text-center' },
+        ]
+    });
+});
+</script>
 @endsection
