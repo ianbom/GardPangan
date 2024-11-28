@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DonasiController;
+use App\Http\Controllers\DonaturController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RelawanController;
@@ -7,9 +9,7 @@ use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
@@ -41,10 +41,16 @@ Route::middleware([IsAdmin::class])->group(function () {
             Route::post('/store', [RelawanController::class, 'store'])->name('admin.relawan.store');
             Route::delete('/delete/{id}', [RelawanController::class, 'delete'])->name('admin.relawan.delete');
         });
+
+        Route::get('/donatur/index', [DonaturController::class, 'indexDonatur'])->name('admin.donatur.index');
+        Route::resource('donasi', DonasiController::class);
     });
 });
 
     Route::post('/store/relawan/{id}', [JadwalController::class, 'storeRelawan'])->name('store.relawan');
-    Route::get('/home/relawan', [RelawanController::class, 'homeUser'])->name('user.home');
+    Route::get('/', [RelawanController::class, 'homeUser'])->name('user.home');
 
+    Route::get('/home/donatur', [DonaturController::class, 'homeDonatur'])->name('donatur.home');
+    Route::post('/store/donatur/{id}', [DonaturController::class, 'donaturStore'])->name('donatur.store');
+    Route::get('/show/donatur/{id}', [DonaturController::class, 'donasiShow'])->name('donatur.show');
 

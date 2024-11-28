@@ -34,7 +34,7 @@
     }
 
     .dataTable thead th{
-        background: #1cc88a;
+        background: #006f3c;
     }
 
     input,
@@ -58,6 +58,25 @@
         border-color: #000;
     }
 
+    .bg-success {
+    background-color: #006f3c !important;
+    }
+
+    .text-success {
+        color: #006f3c !important;
+    }
+
+    .btn-success {
+        background-color: #006f3c !important;
+        border-color: #006f3c !important;
+    }
+
+    .btn-success:hover {
+        background-color: #005832 !important;
+        border-color: #005832 !important;
+    }
+
+
     </style>
 
     <!-- Page Wrapper -->
@@ -68,11 +87,22 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Garda Pangan</div>
+                <img src="{{ asset('image/lgogardpa.png') }}" alt="Logo Garda Pangan" class="sidebar-logo">
             </a>
+
+            <style>
+                .sidebar-logo {
+                    max-width: 100px; /* Sesuaikan ukuran logo */
+                    height: auto; /* Pertahankan aspek rasio */
+                    margin: 10px 0; /* Tambahkan margin agar terlihat proporsional */
+                }
+
+                .sidebar-brand {
+                    text-align: center;
+                    padding: 20px 0; /* Sesuaikan padding */
+                }
+            </style>
+
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
@@ -92,7 +122,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Addons
+                Table
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -113,6 +143,27 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item active text-success" href="{{ route('admin.relawan.index') }}">List Relawan</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="#donasi" data-toggle="collapse" data-target="#collapseDonasi" aria-expanded="true"
+                    aria-controls="collapseDonasi">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Donasi & Donatur</span>
+                </a>
+                <div id="collapseDonasi" class="collapse show" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item active text-success" href="{{ route('donasi.index') }}">List Donasi</a>
+                    </div>
+                </div>
+
+                <div id="collapseDonasi" class="collapse show" aria-labelledby="headingPages"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item active text-success" href="{{ route('admin.donatur.index') }}">List Donatur</a>
                     </div>
                 </div>
             </li>
@@ -141,7 +192,7 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
+{{--
                     <!-- Topbar Search -->
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
@@ -154,7 +205,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form> --}}
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
