@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('donatur', function (Blueprint $table) {
             $table->id('id_donatur');
+            $table->string('code')->nullable();
             $table->foreignId('id_donasi')->constrained('donasi', 'id_donasi')->cascadeOnUpdate();
             $table->string('nama')->default('Orang Baik')->nullable();
             $table->string('email')->nullable();
             $table->string('no_telp')->nullable();
             $table->text('pesan')->nullable();
-            $table->decimal('nominal_donasi', 20,0);
-            $table->boolean('is_paid')->default(false);;
+            $table->double('nominal_donasi')->default(0);
+            $table->boolean('is_paid')->default(false);
+            $table->string('status')->default('pending');
+            $table->string('snap_token')->nullable();
             $table->timestamps();
         });
     }

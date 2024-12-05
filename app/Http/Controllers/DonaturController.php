@@ -27,6 +27,15 @@ class DonaturController extends Controller
 }
 
 
+    public function __construct()
+        {
+            \Midtrans\Config::$serverKey    = config('services.midtrans.serverKey');
+            \Midtrans\Config::$isProduction = config('services.midtrans.isProduction');
+            \Midtrans\Config::$isSanitized  = config('services.midtrans.isSanitized');
+            \Midtrans\Config::$is3ds        = config('services.midtrans.is3ds');
+        }
+
+        
 
     public function donaturStore(Request $request, $id){
 
@@ -39,23 +48,56 @@ class DonaturController extends Controller
                 'email' => 'nullable|email',
                 'no_telp' => 'nullable|string',
                 'pesan' => 'nullable|string',
-                'nominal_donasi' => 'required|numeric|min:1',
+                'nominal_donasi' => 'required',
             ]);
 
-            Donatur::create([
+            $donatur = Donatur::create([
                 'id_donasi' => $donasi->id_donasi,
-                'nama' => $request->nama,
+                'code' => 'Donasi-' . mt_rand(100000, 999999),
+                'nama' => $request->nama ?? 'Orang Baik',
                 'email' => $request->email,
                 'no_telp' => $request->no_telp,
                 'pesan' => $request->pesan,
                 'nominal_donasi' => $request->nominal_donasi,
-                'is_paid' => true
+                'is_paid' => false,
+                'status' => 'pending'
             ]);
 
+            $payload = [
+                'transaction_details' => [
+                    'order_id'     => $donatur->code,
+                    'gross_amount' => $donatur->nominal_donasi,
+                ],
 
-            return redirect()->back()->with('success', 'Donasi telah terkirim');
+                'customer_details' => [
+                    'first_name' => $donatur->nama,
+                    'email'      => $donatur->email,
+                ],
+
+                'item_details' => [
+                    [
+                        'id'            => $donatur->code,
+                        'price'         => $donatur->nominal_donasi,
+                        'quantity'      => 1,
+                        'name'          => 'Donation to ' . config('app.name'),
+                        'brand'         => 'Donation',
+                        'category'      => 'Donation',
+                        'merchant_name' => config('app.name'),
+                    ],
+                ],
+            ];
+
+            $snapToken = \Midtrans\Snap::getSnapToken($payload);
+            $donatur->snap_token = $snapToken;
+            $donatur->save();
+
+
+            return response()->json([
+                'status'     => 'success',
+                'snap_token' => $snapToken,
+            ]);
         } catch (\Throwable $th) {
-            return redirect()->back()->with('error', $th->getMessage());
+            return response()->json(['error' => $th->getMessage()]);
         }
     }
 
