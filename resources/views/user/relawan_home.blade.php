@@ -115,7 +115,7 @@
 
 
 
-@forelse ($jadwal as $item)
+@if ($jadwalTerbaru && $jadwalTerlama)
 <div class="container py-5" style="margin-top: 5rem;">
     <!-- Header Section -->
     <div class="text-center mb-4">
@@ -129,10 +129,14 @@
 
         </h4>
     </div>
+    @else
+@endif
+
+
 
     <!-- Schedule Cards -->
     <div class="row justify-content-center">
-
+        @forelse ($jadwal as $item)
             <div class="col-12 col-md-4 col-lg-3 mb-4">
                 <div class="card h-100">
                     <div class="card-body text-center">
