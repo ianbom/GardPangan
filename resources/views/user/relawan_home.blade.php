@@ -113,6 +113,9 @@
         }
     </style>
 
+
+
+@forelse ($jadwal as $item)
 <div class="container py-5" style="margin-top: 5rem;">
     <!-- Header Section -->
     <div class="text-center mb-4">
@@ -129,7 +132,7 @@
 
     <!-- Schedule Cards -->
     <div class="row justify-content-center">
-        @forelse ($jadwal as $item)
+
             <div class="col-12 col-md-4 col-lg-3 mb-4">
                 <div class="card h-100">
                     <div class="card-body text-center">
@@ -188,8 +191,8 @@
                 </div>
             </div>
         @empty
-            <div class="col-12 text-center">
-                <p class="text-muted">Tidak ada jadwal tersedia.</p>
+            <div class="col-12 text-center mb-5 mt-5">
+                <h1  class="bold">Tidak ada jadwal tersedia.</h1>
             </div>
         @endforelse
     </div>
